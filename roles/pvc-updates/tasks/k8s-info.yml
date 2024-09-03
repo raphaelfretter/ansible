@@ -13,4 +13,4 @@
 
 - name: Display pvc List
   debug:
-    msg: "{{ filter_pvc | map('join', ', ') | list }}"
+    msg: filter_pvc
