@@ -18,7 +18,7 @@
 # if filter_pvc contains 0, exit
 - name: count pvc List
   set_fact:
-    cephfs_count: "{{ filter_pvc | length > 0 }}"
+    cephfs_count: "{{ filter_pvc | length == 0 }}"
 
 - name: Fail if cephfs_count is 0
   fail: 
