@@ -1,0 +1,9 @@
+- name: Get a list of all pods from any namespace
+  k8s_info:
+    kind: Pod
+    namespace: 0001-dapp-dev
+  register: pod_list
+
+- name: Display pod List
+  debug:
+    var: pod_list
