@@ -6,7 +6,11 @@
 - name: Filter the pvc List
   set_fact:
     cephfs_pvc: "{{ pvc_list.resources | selectattr('spec.storageClassName', 'equalto', 'ocs-storagecluster-cephfs') | list }}"
+  
+- name: Only show the name, namespace, and storageclass
+  set_fact:
+    filter_pvc: "{{ cephfs_pvc | map(attribute='metadata') | map(attribute='name') | zip(cephfs_pvc) | map(attribute='metadata.namespace'), cephfs_pvc | map(attribute='spec.storageClassName') | map('list') | list }}"
 
 - name: Display pvc List
   debug:
-    var: cephfs_pvc
+    var: "{{ filter_pvc | map('join', ', ') | list }}"
