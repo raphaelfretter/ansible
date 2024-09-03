@@ -1,5 +1,5 @@
 - name: Get a list of all pods from any namespace
-  k8s_info:
+  kubernetes.core.k8s_info:
     kind: Pod
     namespace: 0001-dapp-dev
   register: pod_list

@@ -1,3 +1,5 @@
 - hosts: all
+  collections:
+    - kubernetes.core
   roles:
     - role: '../roles/pvc-updates'
