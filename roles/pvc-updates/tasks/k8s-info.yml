@@ -1,6 +1,8 @@
 - name: Get a list of all PVCs from any namespace
   kubernetes.core.k8s_info:
     kind: PersistentVolumeClaim
+    fieldSelector:
+
   register: pvc_list
 
 - name: Filter the pvc List
@@ -9,7 +11,7 @@
   
 - name: Only show the name, namespace, and storageclass
   set_fact:
-    filter_pvc: "{{ cephfs_pvc | map(attribute='metadata') | map(attribute='name') | zip(cephfs_pvc) | map(attribute='metadata.namespace'), cephfs_pvc | map(attribute='spec.storageClassName') | map('join', ', ') | list }}"
+    filter_pvc: "{{ cephfs_pvc | map(attribute='metadata') | map(attribute='name') | zip(cephfs_pvc) | map(attribute='metadata.namespace'), cephfs_pvc | map(attribute='spec.storageClassName') | list }}"
 
 - name: Display pvc List
   debug:
