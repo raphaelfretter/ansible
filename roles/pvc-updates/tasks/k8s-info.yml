@@ -9,7 +9,7 @@
   
 - name: Only show the name, namespace, and storageclass
   set_fact:
-    filter_pvc: "{{ cephfs_pvc | map(attribute='metadata') | map(attribute='name') | zip(cephfs_pvc) | map(attribute='metadata.namespace'), cephfs_pvc | map(attribute='spec.storageClassName') | map('list') | list }}"
+    filter_pvc: "{{ cephfs_pvc | map(attribute='metadata') | map(attribute='name') | zip(cephfs_pvc) | map(attribute='metadata.namespace'), cephfs_pvc | map(attribute='spec.storageClassName') | map('join', ', ') | list }}"
 
 - name: Display pvc List
   debug:
