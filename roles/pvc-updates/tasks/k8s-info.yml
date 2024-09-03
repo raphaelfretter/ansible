@@ -10,10 +10,17 @@
 - name: more filter
   set_fact:
     filter_pvc: "{{ cephfs_pvc | selectattr('metadata.name', 'search', 'pipeline') | list }}"
-# - name: Only show the name, namespace, and storageclass
-#   set_fact:
-#     filter_pvc: "{{ cephfs_pvc | map(attribute='metadata'), cephfs_pvc | map(attribute='name') | map(attribute='metadata.namespace'), cephfs_pvc | map(attribute='spec.storageClassName') | list }}"
 
 - name: Display pvc List
   debug:
     msg: "{{ filter_pvc }}"
+
+# if filter_pvc contains 0, exit
+- name: count pvc List
+  set_fact:
+    cephfs_count: "{{ filter_pvc | length > 0 }}"
+
+- name: Display the message if true
+  debug:
+    msg: "{{ cephfs_count }}"
+  when: cephfs_count
