@@ -1,10 +1,12 @@
 - name: Get a list of all PVCs from any namespace
   kubernetes.core.k8s_info:
     kind: PersistentVolumeClaim
-    field_selectors:
-      - spec.StorageClassName=ocs-storagecluster-cephfs
   register: pvc_list
+
+- name: Filter the pvc List
+  set_fact:
+    cephfs_pvc: '{{ pvc_list.resources | selectattr('spec.storageClassName', 'equalto', 'ocs-storagecluster-cephfs') | list }}'
 
 - name: Display pvc List
   debug:
-    var: pvc_list
+    var: cephfs_pvc
