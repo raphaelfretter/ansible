@@ -1,8 +1,6 @@
 - name: Get a list of all PVCs from any namespace
   kubernetes.core.k8s_info:
     kind: PersistentVolumeClaim
-    fieldSelector:
-
   register: pvc_list
 
 - name: Filter the pvc List
