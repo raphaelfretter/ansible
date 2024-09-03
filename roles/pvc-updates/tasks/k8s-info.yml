@@ -20,7 +20,7 @@
   set_fact:
     cephfs_count: "{{ filter_pvc | length > 3 }}"
 
-- name: Display the message if true
-  debug:
-    msg: "{{ cephfs_count }}"
+- name: Fail if cephfs_count is 0
+  fail: 
+    msg: "Purposefully failing because no PVCs with cephfs exist."
   when: cephfs_count
