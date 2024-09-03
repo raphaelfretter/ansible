@@ -1,2 +1,4 @@
+# For AAP deployment
+
 collections:
   - name: kubernetes.core

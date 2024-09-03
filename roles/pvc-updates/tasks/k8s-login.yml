@@ -1,3 +1,5 @@
+# Needed for CLI
+
 - name: Authenticate to OpenShift cluster and gell a list of all pods from any namespace
   block:
     # It's good practice to store login credentials in a secure vault and not

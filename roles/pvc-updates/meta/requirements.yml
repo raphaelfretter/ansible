@@ -1,2 +1,4 @@
+# Use for CLI deployment
+
 collections:
   - name: kubernetes.core
