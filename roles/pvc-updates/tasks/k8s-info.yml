@@ -5,7 +5,7 @@
 
 - name: Filter the pvc List
   set_fact:
-    cephfs_pvc: '{{ pvc_list.resources | selectattr('spec.storageClassName', 'equalto', 'ocs-storagecluster-cephfs') | list }}'
+    cephfs_pvc: "{{ pvc_list.resources | selectattr('spec.storageClassName', 'equalto', 'ocs-storagecluster-cephfs') | list }}"
 
 - name: Display pvc List
   debug:
