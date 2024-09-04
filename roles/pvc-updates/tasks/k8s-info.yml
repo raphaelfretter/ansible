@@ -28,25 +28,24 @@
 
 # go through pod list
 # check if any pod has pvc named pvc_name under pvc
-# remove it from pvc_list
+# if it is then remove the namespace and pvc_name from the list
 # if it stays it means the pvc is in use
 # add the pvcs in use to a list and display to runner
 - name: 
   set_fact:
-    pvc_in_use: "{{
-            pod_list.results | selectattr('items', 'defined') | map(attribute='items') |
-            sum(start=[]) | selectattr('metadata.name', 'search', pvc_name) |
-            selectattr('spec.volumes', 'defined') | map(attribute='spec.volumes') |
-            sum(start=[]) | selectattr('persistentVolumeClaim.claimName', 'defined') | map(attribute='persistentVolumeClaim.claimName') | list
-          }}"
+    pod_with_pvc_name: "{{ pod_list.results | selectattr('spec.volumes.persistentVolumeClaim.claimName', 'search', pvc_name) | list }}"
 
-- name: Filter out PVCs associated with Pods from PVC list
-  set_fact:
-    pvc_definitions: "{{ filter_pvc | selectattr('name', 'not in', pvc_in_use) | list }}"
-
-- name: debug pvc_definitions value
+- name: echo the found pod
   debug:
-    msg: "{{ pvc_definitions }}"
+    msg: "{{ pod_with_pvc_name }}"
+
+# - name: Filter out PVCs associated with Pods from PVC list
+#   set_fact:
+#     pvc_definitions: "{{ filter_pvc | selectattr('name', 'not in', pvc_in_use) | list }}"
+
+# - name: debug pvc_definitions value
+#   debug:
+#     msg: "{{ pvc_definitions }}"
 
 - name: "Fail if there are zero {{ old_storage_class }} PVCs"
   fail: 
