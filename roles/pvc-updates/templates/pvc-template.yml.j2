@@ -3,7 +3,7 @@ apiVersion: v1
 metadata:
   name: {{ item.metadata.name }}
   namespace: {{ item.metadata.namespace }}
-  annotations: {{ pvc_annotations | list }}
+  annotations: {{ pvc_annotations }}
 spec:
   accessModes:
     - ReadWriteOnce
