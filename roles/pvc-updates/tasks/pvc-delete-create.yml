@@ -1,7 +1,8 @@
 # TODO: use loop to go through filter_pvc fact and delete PVC then re-create using Jinja template.
 
 - name: List through loop
-  msg: "{{ item.metadata.name }} {{ item.metadata.namespace}} {{ spec.resources.requests.storage }}"
+  debug:
+    msg: "{{ item.metadata.name }} {{ item.metadata.namespace}} {{ spec.resources.requests.storage }}"
   loop: "{{ filter_pvc }}"
 
 # - name: Delete designated PVC by name and namespace.
