@@ -24,7 +24,7 @@
 
 - name: Display pod_list
   debug:
-    msg: "{{ pod_list.results }}"
+    msg: "{{ pod_list.results.resources | list }}"
 
 # go through pod list
 # check if any pod has pvc named pvc_name under pvc
