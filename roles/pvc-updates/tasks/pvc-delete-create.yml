@@ -3,7 +3,7 @@
 - name: List through loop
   debug:
     msg: "{{ item.metadata.name }} {{ item.metadata.namespace}} {{ item.spec.resources.requests.storage }}"
-  with_dict: "{{ filter_pvc }}"
+  loop: "{{ filter_pvc | dict2items }}"
 
 # - name: Delete designated PVC by name and namespace.
 #   kubernetes.core.k8s:
