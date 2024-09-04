@@ -31,13 +31,13 @@
 # if it is then remove the namespace and pvc_name from the list
 # if it stays it means the pvc is in use
 # add the pvcs in use to a list and display to runner
-- name:
-  set_fact:
-    pod_with_pvc_name: "{{ pod_list.results.resources | selectattr('spec.volumes', 'defined') | selectattr('spec.volumes', 'selectattr', 'persistentVolumeClaim.claimName', 'equalto', pvc_name) | map(attribute='metadata.name') | list }}"
+# - name:
+#   set_fact:
+#     pod_with_pvc_name: "{{ pod_list.results.resources | selectattr('spec.volumes', 'defined') | selectattr('spec.volumes', 'selectattr', 'persistentVolumeClaim.claimName', 'equalto', pvc_name) | map(attribute='metadata.name') | list }}"
 
-- name: echo the found pod
-  debug:
-    msg: "{{ pod_with_pvc_name }}"
+# - name: echo the found pod
+#   debug:
+#     msg: "{{ pod_with_pvc_name }}"
 
 # - name: Filter out PVCs associated with Pods from PVC list
 #   set_fact:
