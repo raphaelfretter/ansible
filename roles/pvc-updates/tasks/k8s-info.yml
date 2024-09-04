@@ -7,13 +7,28 @@
   set_fact:
     old_storage_class_pvc: "{{ pvc_list.resources | selectattr('spec.storageClassName', 'equalto', old_storage_class) |  list }}"
   
-- name: "Filter the PVC list to only show the PVCs with the name containing {{ pvc_name }}"
+- name: "Filter the PVC list to only show the PVCs with the name equal to {{ pvc_name }}"
   set_fact:
     filter_pvc: "{{ old_storage_class_pvc | selectattr('metadata.name', 'equalto', pvc_name) | list }}"
 
 - name: "Display the PVC list array"
   debug:
     msg: "{{ filter_pvc }}"
+
+- name: "Get a list of all pods from namespaces found in filter_pvc"
+  kubernetes.core.k8s_info:
+    kind: Pod
+    namespace: "{{ item.metadata.namespace }}"
+  register: pod_list
+  loop: "{{ filter_pvc }}"
+
+- name: Display pod_list
+  debug:
+    msg: "{{ pod_list }}"
+
+- name: 
+  set_fact:
+    pod_in_use: "{{ pod_list.results }}"
 
 - name: "Fail if there are zero {{ old_storage_class }} PVCs"
   fail: 
