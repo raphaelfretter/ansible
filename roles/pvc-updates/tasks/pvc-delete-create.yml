@@ -14,7 +14,7 @@
     name: "{{ item.metadata.name }}"
   loop: "{{ filter_pvc }}"
 
-- name: Re-create designated PVC by name and namespace using Jinja pvc-template.
+- name: Re-create designated PVC by name and namespace using pvc-template.
   kubernetes.core.k8s:
     state: present
     template:

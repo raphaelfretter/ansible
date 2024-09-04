@@ -3,19 +3,19 @@
     kind: PersistentVolumeClaim
   register: pvc_list
 
-- name: Filter the pvc List to only show the PVCs with the storageClassName 'ocs-storagecluster-cephfs'
+- name: "Filter the pvc List to only show the PVCs with the storageClassName {{ old_storage_class }}"
   set_fact:
-    cephfs_pvc: "{{ pvc_list.resources | selectattr('spec.storageClassName', 'equalto', 'ocs-storagecluster-cephfs') |  list }}"
+    old_storage_class_pvc: "{{ pvc_list.resources | selectattr('spec.storageClassName', 'equalto', old_storage_class) |  list }}"
   
-- name: Filter the PVC list to only show the PVCs with the name containing 'pipeline'.
+- name: "Filter the PVC list to only show the PVCs with the name containing {{ pvc_name }}"
   set_fact:
-    filter_pvc: "{{ cephfs_pvc | selectattr('metadata.name', 'equalto', 'pipeline-testing') | list }}"
+    filter_pvc: "{{ old_storage_class_pvc | selectattr('metadata.name', 'equalto', pvc_name) | list }}"
 
-- name: Display the PVC list array
+- name: "Display the PVC list array"
   debug:
     msg: "{{ filter_pvc }}"
 
-- name: Good news, failing if there are zero cephfs PVCs
+- name: "Fail if there are zero {{ old_storage_class }} PVCs"
   fail: 
-    msg: "Purposefully failing because no PVCs with cephfs exist."
+    msg: "Purposefully failing because no PVCs with {{ old_storage_class }} exist."
   when: "{{ filter_pvc | length == 0 }}"
