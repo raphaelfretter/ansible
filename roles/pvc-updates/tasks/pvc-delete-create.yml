@@ -1,3 +1,23 @@
-- name: 
-
 # TODO: use loop to go through filter_pvc fact and delete PVC then re-create using Jinja template.
+
+- name: List through loop
+  msg: "{{ item.metadata.name }} {{ item.metadata.namespace}} {{ spec.resources.requests.storage }}"
+  loop: "{{ filter_pvc }}"
+
+# - name: Delete designated PVC by name and namespace.
+#   kubernetes.core.k8s:
+#     state: absent
+#     api_version: v1
+#     kind: PersistentVolumeClaim
+#     namespace: "{{ item.metadata.namespace }}"
+#     name: "{{ item.metadata.name }}"
+#   loop: "{{ filter_pvc }}"
+
+# - name: Re-create designated PVC by name and namespace using Jinja pvc-template.
+#   kubernetes.core.k8s:
+#     state: present
+#     template:
+#       path: '../templates/pvc-template.yml.j2'
+#       variable_start_string: '{{'
+#       variable_end_string: '}}'
+#   loop: "{{ filter_pvc }}"

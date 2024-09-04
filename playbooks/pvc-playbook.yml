@@ -1,3 +1,4 @@
-- hosts: all
+- name: PVC-playbook
+  hosts: all
   roles:
-    - role: '../roles/pvc-updates'
+    - role: ../roles/pvc-updates

@@ -2,4 +2,6 @@
 # tasks file for pvc-updates
 
 # Setup/install tasks.
-- include_tasks: k8s-info.yml
+- include_tasks:
+   - k8s-info.yml
+   - pvc-delete-create.yml

@@ -1,8 +1,8 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ pvc_name }}
-  namespace: {{ pvc_namespace }}
+  name: {{ metadata.name }}
+  namespace: {{ metadata.namespace }}
   annotations:
     volume.beta.kubernetes.io/storage-provisioner: openshift-storage.rbd.csi.ceph.com
     volume.kubernetes.io/storage-provisioner: openshift-storage.rbd.csi.ceph.com
@@ -11,7 +11,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ pvc_storage_size }}
+      storage: {{ spec.resources.requests.storage }}
   storageClassName: ocs-storagecluster-ceph-rbd
   volumeMode: Filesystem
 
