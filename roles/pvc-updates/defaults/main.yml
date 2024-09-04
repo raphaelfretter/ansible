@@ -4,5 +4,5 @@ pvc_name: pipeline-pvc
 old_storage_class: ocs-storagecluster-cephfs
 new_storage_class: ocs-storagecluster-ceph-rbd
 pvc_annotations:
-  - volume.beta.kubernetes.io/storage-provisioner: openshift-storage.rbd.csi.ceph.com
-  - volume.kubernetes.io/storage-provisioner: openshift-storage.rbd.csi.ceph.com
+  volume.beta.kubernetes.io/storage-provisioner: openshift-storage.rbd.csi.ceph.com
+  volume.kubernetes.io/storage-provisioner: openshift-storage.rbd.csi.ceph.com
