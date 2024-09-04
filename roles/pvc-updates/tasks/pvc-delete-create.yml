@@ -2,7 +2,7 @@
 
 - name: List through loop
   debug:
-    msg: "{{ item.metadata.name }} {{ item.metadata.namespace}} {{ spec.resources.requests.storage }}"
+    msg: "{{ item.metadata.name }} {{ item.metadata.namespace}} {{ item.spec.resources.requests.storage }}"
   loop: "{{ filter_pvc }}"
 
 # - name: Delete designated PVC by name and namespace.
