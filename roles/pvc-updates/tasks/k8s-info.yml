@@ -5,11 +5,11 @@
 
 - name: Filter the pvc List to only show the PVCs with the storageClassName 'ocs-storagecluster-cephfs'
   set_fact:
-    cephfs_pvc: "{{ pvc_list.resources | selectattr('spec.storageClassName', 'equalto', 'ocs-storagecluster-cephfs') | list }}"
+    cephfs_pvc: "{{ pvc_list.resources | selectattr('spec.storageClassName', 'equalto', 'ocs-storagecluster-cephfs') |  list }}"
   
 - name: Filter the PVC list to only show the PVCs with the name containing 'pipeline'.
   set_fact:
-    filter_pvc: "{{ cephfs_pvc | selectattr('metadata.name', 'search', 'pipeline') | list }}"
+    filter_pvc: "{{ cephfs_pvc | selectattr('metadata.name', 'equalto', 'pipeline-testing-haha') | list }}"
 
 - name: Display the PVC list array
   debug:
