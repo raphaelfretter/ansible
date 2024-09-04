@@ -24,7 +24,7 @@
 
 - name: Display pod_list
   debug:
-    msg: "{{ pod_list.results | selectattr('resources.spec.volumes', 'defined') | list }}"
+    msg: "{{ pod_list.results | selectattr('resources.spec.volumes', 'defined') | selectattr('resources.spec.volumes', 'selectattr', 'persistentVolumeClaim.claimName', 'equalto', pvc_name) | list }}"
 
 # go through pod list
 # check if any pod has pvc named pvc_name under pvc
