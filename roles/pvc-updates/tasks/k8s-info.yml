@@ -37,7 +37,7 @@
             pod_list.results | selectattr('items', 'defined') | map(attribute='items') |
             sum(start=[]) | selectattr('metadata.name', 'search', pvc_name) |
             selectattr('spec.volumes', 'defined') | map(attribute='spec.volumes') |
-            sum(start=[]) | selectattr('persistentVolumeClaim.claimName') | map(attribute='persistentVolumeClaim.claimName') | list
+            sum(start=[]) | selectattr('persistentVolumeClaim.claimName', 'defined') | map(attribute='persistentVolumeClaim.claimName') | list
           }}"
 
 - name: Filter out PVCs associated with Pods from PVC list
