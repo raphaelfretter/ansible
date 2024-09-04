@@ -3,7 +3,7 @@
     kind: PersistentVolumeClaim
   register: pvc_list
 
-- name: "Filter the pvc List to only show the PVCs with the storageClassName {{ old_storage_class }}"
+- name: "Filter the PVC list to only show the PVCs with the storageClassName {{ old_storage_class }}"
   set_fact:
     old_storage_class_pvc: "{{ pvc_list.resources | selectattr('spec.storageClassName', 'equalto', old_storage_class) |  list }}"
   
