@@ -2,8 +2,8 @@
 
 - name: List through loop
   debug:
-    msg: "{{ item.metadata.name }} {{ item.metadata.namespace}} {{ item.spec.resources.requests.storage }}"
-  loop: "{{ filter_pvc | flatten(levels=1) }}"
+    msg: "{{ item.metadata.name }} ' ' {{ item.metadata.namespace}} ' ' {{ item.spec.resources.requests.storage }}"
+  loop: "{{ filter_pvc }}"
 
 # - name: Delete designated PVC by name and namespace.
 #   kubernetes.core.k8s:
