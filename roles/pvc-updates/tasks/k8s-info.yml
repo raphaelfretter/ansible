@@ -24,7 +24,7 @@
 
 - name: Display pod_list
   debug:
-    msg: "{{ pod_list.results[0].resources | map(attribute='spec.volumes') | flatten | map('persistentVolumeClaim', 'defined') | map('persistentVolumeClaim.claimName', 'equalto', pvc_name) | list }}"
+    msg: "{{ pod_list.results[0].resources | map(attribute='spec.volumes') | flatten | map(attribute='persistentVolumeClaim') | map(attribute='persistentVolumeClaim.claimName') | list }}"
     # msg: "{{ pod_list.results | selectattr('resources.spec.volumes', 'defined') | selectattr('resources.spec.volumes', 'selectattr', 'persistentVolumeClaim.claimName', 'equalto', 'pipeline-pvc') | list }}"
 
 # go through pod list
