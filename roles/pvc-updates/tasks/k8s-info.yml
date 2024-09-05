@@ -24,7 +24,7 @@
 
 - name: Display pod_list
   debug:
-    msg: "{{ pod_list.results[0] }}"
+    msg: "{{ pod_list.results[0].resources }}"
     # msg: "{{ pod_list.results | selectattr('resources.spec.volumes', 'defined') | selectattr('resources.spec.volumes', 'selectattr', 'persistentVolumeClaim.claimName', 'equalto', 'pipeline-pvc') | list }}"
 
 # go through pod list
