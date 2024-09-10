@@ -58,6 +58,10 @@
 #   debug:
 #     msg: "{{ pod_with_pvc_name }}"
 
+- name: debug
+  debug:
+    msg: "{{ '(?!' + namespaces_using_pvc | join('|') + ')' }}"
+
 - name: Filter out PVCs associated with Pods from PVC list
   set_fact:
     pvc_definitions: "{{ filter_pvc | selectattr('metadata.namespace', 'search', '(?!' + namespaces_using_pvc | join('|') + ')') | list }}"
