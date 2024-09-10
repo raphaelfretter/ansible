@@ -66,6 +66,7 @@
   set_fact:
     # pvc_definitions: "{{ filter_pvc | selectattr('metadata.namespace', 'search', '(?!' + namespaces_using_pvc | join('|') + ')') | list }}"
     pvc_definitions: "{{ filter_pvc | rejectattr('metadata.namespace', 'in', namespaces_using_pvc) | list }}"
+    
 - name: debug pvc_definitions value
   debug:
     msg: "{{ pvc_definitions }}"
@@ -73,4 +74,4 @@
 - name: "Fail if there are zero {{ old_storage_class }} PVCs"
   fail: 
     msg: "Purposefully failing because no PVCs with {{ old_storage_class }} exist."
-  when: "{{ filter_pvc | length == 0 }}"
+  when: "{{ pvc_definitions | length == 0 }}"
