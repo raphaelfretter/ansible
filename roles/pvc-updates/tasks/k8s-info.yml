@@ -60,7 +60,7 @@
 
 - name: Filter out PVCs associated with Pods from PVC list
   set_fact:
-    pvc_definitions: "{{ filter_pvc | selectattr('not', 'namespace', 'in', namespaces_using_pvc) | list }}"
+    pvc_definitions: "{{ filter_pvc | selectattr('namespace', 'not%in', namespaces_using_pvc) | list }}"
 
 - name: debug pvc_definitions value
   debug:
