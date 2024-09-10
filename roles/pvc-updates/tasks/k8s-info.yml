@@ -26,7 +26,7 @@
   debug:
     # msg: "{{ pod_list.results[0].resources | map(attribute='metadata.namespace') | map(attribute='spec.volumes') | list }}
     # msg: "{{ pod_list.results[0].resources | map(attribute='spec') | map() | list }}"
-    msg: "{{ pod_list.results[0].resources | map(attribute='metadata') | zip_longest(pod_list.results[0].resources | map(attribute='spec.volumes'), fillvalue='') | list }}"
+    msg: "{{ pod_list.results[0].resources | map(attribute='metadata.name') | zip_longest(pod_list.results[0].resources | map(attribute='metadata.namespace', pod_list.results[0].resources | selectattr('spec.volumes', 'defined') | selectattr('spec.volumes.persistentVolumeClaim.claimName', 'equalto', pvc_name), fillvalue='') | list }}"
     # msg: "{{ pod_list.results | selectattr('resources.spec.volumes', 'defined') | selectattr('resources.spec.volumes', 'selectattr', 'persistentVolumeClaim.claimName', 'equalto', 'pipeline-pvc') | list }}"
 
 # go through pod list
