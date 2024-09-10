@@ -24,7 +24,11 @@
 
 - name: Display pod_list
   debug:
-    msg: "{{ pod_list.results[0].resources | map(attribute='metadata.name') | zip_longest(pod_list.results[0].resources | map(attribute='metadata.namespace'), pod_list.results[0].resources | subelements('spec.volumes.persistentVolumeClaim.claimName'), fillvalue='') | list }}"
+    msg: >-
+      {{
+        pod_list.results[0].resources | selectattr('spec.volumes', 'defined') | selectattr('spec.volumes', 'search', pvc_name) | map(attribute='metadata.namespace') | list
+      }}
+    # msg: "{{ pod_list.results[0].resources | map(attribute='metadata.name') | zip_longest(pod_list.results[0].resources | map(attribute='metadata.namespace'), pod_list.results[0].resources | subelements('spec.volumes.persistentVolumeClaim.claimName'), fillvalue='') | list }}"
     # msg: "{{ pod_list.results[0].resources | map(attribute='metadata.namespace') | map(attribute='spec.volumes') | list }}
     # msg: "{{ pod_list.results[0].resources | map(attribute='spec') | map() | list }}"
     # msg: "{{ pod_list.results[0].resources | map(attribute='metadata.name') | zip_longest(pod_list.results[0].resources | map(attribute='metadata.namespace', pod_list.results[0].resources | selectattr('spec.volumes', 'defined') | selectattr('spec.volumes', 'selectattr', 'persistentVolumeClaim.claimName', 'equalto', pvc_name), fillvalue='') | list }}"
