@@ -12,11 +12,11 @@
     kind: PersistentVolumeClaim
     namespace: "{{ item.metadata.namespace }}"
     name: "{{ item.metadata.name }}"
-  loop: "{{ filter_pvc }}"
+  loop: "{{ pvc_definitions }}"
 
 - name: Re-create designated PVC by name and namespace using pvc-template.
   kubernetes.core.k8s:
     state: present
     template:
       path: 'pvc-template.yml.j2'
-  loop: "{{ filter_pvc }}"
+  loop: "{{ pvc_definitions }}"
