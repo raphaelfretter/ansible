@@ -30,7 +30,7 @@
 
 - name: debug filter_pvc
   debug:
-    msg: "{{ filter_pvc }}"
+    msg: "{{ pod_list }}"
 
 - name: Find namespaces using PVC
   set_fact:
