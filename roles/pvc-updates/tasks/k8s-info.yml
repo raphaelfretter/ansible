@@ -30,7 +30,7 @@
 
 - name: debug pod_list
   debug:
-    msg: "{{ pod_list.results | map(attribute='resources') | flatten | list }}"
+    msg: "{{ pod_list.results | map(attribute='resources') | flatten | | selectattr('spec.volumes', 'defined') | selectattr('spec.volumes', 'search', pvc_name) | list }}"
 
 - name: Find namespaces using PVC
   set_fact:
