@@ -28,6 +28,10 @@
   register: pod_list
   loop: "{{ filter_pvc }}"
 
+- name: debug filter_pvc
+  debug:
+    msg: "{{ filter_pvc }}"
+
 - name: Find namespaces using PVC
   set_fact:
     namespaces_using_pvc: >-
