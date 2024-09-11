@@ -34,10 +34,7 @@
 
 - name: Find namespaces using PVC
   set_fact:
-    namespaces_using_pvc: >-
-      {{
-        pod_list.results[0].resources | selectattr('spec.volumes', 'defined') | selectattr('spec.volumes', 'search', pvc_name) | map(attribute='metadata.namespace') | list
-      }}
+    namespaces_using_pvc: "{{ pod_list.results[0].resources | selectattr('spec.volumes', 'defined') | selectattr('spec.volumes', 'search', pvc_name) | map(attribute='metadata.namespace') | list }}"
 
 - name: Display namespaces using PVC
   debug:
