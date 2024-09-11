@@ -3,21 +3,13 @@
     kind: PersistentVolumeClaim
   register: pvc_list
 
-# - name: "Filter the PVC list to only show the PVCs with the storageClassName {{ old_storage_class }} and name equal to {{ pvc_name }}"
-#   set_fact:
-#     old_storage_class_pvc: "{{ pvc_list.resources | selectattr('spec.storageClassName', 'equalto', old_storage_class) |  list }}"
-  
-# - name: "Filter the PVC list to only show the PVCs with the name equal to {{ pvc_name }}"
-#   set_fact:
-#     filter_pvc: "{{ old_storage_class_pvc | selectattr('metadata.name', 'equalto', pvc_name) | list }}"
-
 - name: "Filter the PVC list to only show the PVCs with the name equal to {{ pvc_name }}"
   set_fact:
     filter_pvc: "{{ pvc_list.resources | selectattr('spec.storageClassName', 'equalto', old_storage_class) | selectattr('metadata.name', 'equalto', pvc_name) | list }}"
 
-- name: "Display the PVC list array"
-  debug:
-    msg: "{{ filter_pvc }}"
+# - name: "Display the PVC list array"
+#   debug:
+#     msg: "{{ filter_pvc }}"
 
 # go through pod list
 # check if any pod has pvc named pvc_name under pvc
@@ -32,17 +24,17 @@
   register: pod_list
   loop: "{{ filter_pvc }}"
 
-- name: debug pod_list
-  debug:
-    msg: "{{ pod_list }}"
+# - name: debug pod_list
+#   debug:
+#     msg: "{{ pod_list }}"
 
 - name: Find namespaces using PVC
   set_fact:
     namespaces_using_pvc: "{{ pod_list.results | map(attribute='resources') | flatten | selectattr('spec.volumes', 'defined') | selectattr('spec.volumes', 'search', pvc_name) | map(attribute='metadata.namespace') | list }}"
 
-- name: Display namespaces using PVC
-  debug:
-    msg: "{{ namespaces_using_pvc }}"
+# - name: Display namespaces using PVC
+#   debug:
+#     msg: "{{ namespaces_using_pvc }}"
 
 - name: Prompt runner which PVCs cannot be deleted
   debug:
@@ -53,9 +45,9 @@
   set_fact:
     pvc_definitions: "{{ filter_pvc | rejectattr('metadata.namespace', 'in', namespaces_using_pvc) | list }}"
 
-- name: debug pvc_definitions value
-  debug:
-    msg: "{{ pvc_definitions }}"
+# - name: debug pvc_definitions value
+#   debug:
+#     msg: "{{ pvc_definitions }}"
 
 - name: "Fail if there are zero {{ old_storage_class }} PVCs to update"
   fail:
