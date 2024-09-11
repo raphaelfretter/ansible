@@ -32,7 +32,7 @@
   set_fact:
     namespaces_using_pvc: >-
       {{
-        pod_list.results[0].resources | selectattr('spec.volumes', 'defined') | selectattr('spec.volumes', 'search', pvc_name) | map(attribute='metadata.namespace') | list
+        pod_list.item | selectattr('spec.volumes', 'defined') | selectattr('spec.volumes', 'search', pvc_name) | map(attribute='metadata.namespace') | list
       }}
 
 - name: Display namespaces using PVC
@@ -53,6 +53,6 @@
     msg: "{{ pvc_definitions }}"
 
 - name: "Fail if there are zero {{ old_storage_class }} PVCs to update"
-  fail: 
+  fail:
     msg: "Purposefully failing because no PVCs with {{ old_storage_class }} exist."
   when: "{{ pvc_definitions | length == 0 }}"
