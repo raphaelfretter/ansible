@@ -39,6 +39,11 @@
   debug:
     msg: "{{ namespaces_using_pvc }}"
 
+- name: Prompt runner which PVCs cannot be deleted
+  debug:
+    msg: "Not deleting {{ pvc_name }} in namespace {{ item.metadata.namespace }} -- Currently being used by a pod."
+  loop: "{{ filter_pvc | selectattr('metadata.namespace', 'in', namespaces_using_pvc) | list }}"
+
 - name: Filter out PVCs associated with Pods from PVC list
   set_fact:
     pvc_definitions: "{{ filter_pvc | rejectattr('metadata.namespace', 'in', namespaces_using_pvc) | list }}"
