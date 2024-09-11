@@ -3,13 +3,17 @@
     kind: PersistentVolumeClaim
   register: pvc_list
 
-- name: "Filter the PVC list to only show the PVCs with the storageClassName {{ old_storage_class }}"
-  set_fact:
-    old_storage_class_pvc: "{{ pvc_list.resources | selectattr('spec.storageClassName', 'equalto', old_storage_class) |  list }}"
+# - name: "Filter the PVC list to only show the PVCs with the storageClassName {{ old_storage_class }} and name equal to {{ pvc_name }}"
+#   set_fact:
+#     old_storage_class_pvc: "{{ pvc_list.resources | selectattr('spec.storageClassName', 'equalto', old_storage_class) |  list }}"
   
+# - name: "Filter the PVC list to only show the PVCs with the name equal to {{ pvc_name }}"
+#   set_fact:
+#     filter_pvc: "{{ old_storage_class_pvc | selectattr('metadata.name', 'equalto', pvc_name) | list }}"
+
 - name: "Filter the PVC list to only show the PVCs with the name equal to {{ pvc_name }}"
   set_fact:
-    filter_pvc: "{{ old_storage_class_pvc | selectattr('metadata.name', 'equalto', pvc_name) | list }}"
+    filter_pvc: "{{ pvc_list.resources | selectattr('spec.storageClassName', 'equalto', old_storage_class) | selectattr('metadata.name', 'equalto', pvc_name) | list }}"
 
 - name: "Display the PVC list array"
   debug:
