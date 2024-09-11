@@ -30,7 +30,7 @@
 
 - name: debug pod_list
   debug:
-    msg: "{{ pod_list }}"
+    msg: "{{ pod_list | list }}"
 
 - name: Find namespaces using PVC
   set_fact:
